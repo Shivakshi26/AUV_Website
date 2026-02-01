@@ -1,5 +1,5 @@
 import  { useRef } from 'react';
-import { Linkedin, Quote, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
+import {ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
 
 // --- DATA: Companies Founded (Top Carousel) ---
 const companiesFounded = [
