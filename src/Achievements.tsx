@@ -1,4 +1,4 @@
-import { ArrowRight } from 'lucide-react';
+// import { ArrowRight } from 'lucide-react';
 
 // Data for the Timeline Section
 const journeyItems = [

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 // Define the category names including 'all'
 type Category = 'all' | 'matsya' | 'lab' | 'team';

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { MapPin, Phone, Mail, Search, ChevronRight, Twitter, Facebook, Instagram, Linkedin, ChevronDown, Menu, X } from 'lucide-react';
+import { MapPin, Phone, Mail, ChevronRight, Twitter, Facebook, Instagram, Linkedin, ChevronDown, Menu, X } from 'lucide-react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 import Achievements from './Achievements';
 import Vehicles from './Vehicles';
