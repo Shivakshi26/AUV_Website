@@ -143,7 +143,7 @@ export default function Alumni() {
         </p>
       </div>
 
-      {/* --- SECTION 1: COMPANIES FOUNDED (CAROUSEL) --- */}
+      {/* --- SECTION 1: COMPANIES FOUNDED  --- */}
       <section className="max-w-7xl mx-auto px-6 mb-32 relative">
         <div className="flex justify-between items-end mb-8 px-2">
           {/* Carousel Controls */}
@@ -169,7 +169,6 @@ export default function Alumni() {
               className="min-w-[320px] md:min-w-[380px] bg-gradient-to-br from-[#162032] to-[#0f1522] border border-gray-800 p-6 rounded-2xl snap-center hover:border-yellow-500/50 transition-colors group flex flex-col justify-between"
             >
               <div>
-                {/* Logo Placeholder */}
                 <div className="h-32 w-32 mb-6 overflow-hidden rounded-lg bg-white flex items-center justify-center p-2">
                   {company.logo ? (
                     <img
