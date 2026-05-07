@@ -1,25 +1,29 @@
 import { useState, useEffect, useRef } from 'react';
 import { Search, X, ArrowRight } from 'lucide-react';
-import { useNavigate } from 'react-router-dom'; // Using useNavigate for manual control
+import { useNavigate, useLocation } from 'react-router-dom';
 import { searchData } from './searchData';
 
-export default function SearchWidget() {
+interface SearchWidgetProps {
+  onResultClick?: () => void;
+}
+
+export default function SearchWidget({ onResultClick }: SearchWidgetProps) {
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
-  // 1. FILTER LOGIC
+  // 1. IMPROVED FILTER LOGIC (Matches multiple words better)
   const filteredResults = searchData.filter((item) => {
-    const term = query.toLowerCase();
-    return (
-      item.title.toLowerCase().includes(term) ||
-      item.keywords.toLowerCase().includes(term) ||
-      item.category.toLowerCase().includes(term)
-    );
+    const searchTerms = query.toLowerCase().split(" ");
+    const itemText = `${item.title} ${item.keywords} ${item.category}`.toLowerCase();
+    
+    // Checks if EVERY word the user typed is found somewhere in the item
+    return searchTerms.every(term => itemText.includes(term));
   });
 
-  // 2. HANDLE CLICK OUTSIDE (Closes dropdown)
+  // 2. HANDLE CLICK OUTSIDE
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
@@ -30,20 +34,20 @@ export default function SearchWidget() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [wrapperRef]);
 
-  // 3. HANDLE NAVIGATION
+  // 3. BULLETPROOF NAVIGATION
   const handleSelect = (path: string) => {
     setIsOpen(false);
     setQuery(""); // Clear input
+    if (onResultClick) onResultClick(); // Close mobile menu if applicable
     
-    // Check if it's a hash link (e.g., /#contact) on the same page
     if (path.includes('#')) {
       const [pathname, hash] = path.split('#');
-      if (window.location.pathname === pathname) {
-        // If we are already on the page, just scroll
+      // If we are already on the target page, just scroll
+      if (location.pathname === pathname || (location.pathname === '/' && pathname === '/')) {
         const element = document.getElementById(hash);
         element?.scrollIntoView({ behavior: 'smooth' });
       } else {
-        // Otherwise navigate
+        // Otherwise, navigate to the new page with the hash
         navigate(path);
       }
     } else {

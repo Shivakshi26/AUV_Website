@@ -168,7 +168,7 @@ const subdivisions = {
     [ // 1
       { name: "Aditi Nimbolkar", role: "Electrical Trainee", department: "Engineering Physics", linkedin: "#", instagram: "https://www.instagram.com/aditi.nimbolkar/", image: "/images/Team/Freshers25/AditiNimbolkar.png" },
       { name: "Arya Mahajan", role: "Electrical Trainee", department: "Civil Engineering", linkedin: "https://www.linkedin.com/in/arya-mahajan-308078377?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", instagram: "#", image: "/images/Team/Freshers25/AryaMahajan.png" },
-      { name: "Harith Syam", role: "Electrical Trainee", department: "Electrical Engineering", linkedin: "#", instagram: "https://www.instagram.com/harith.syam?igsh=MTgwYnd2MWhxMTVrcw==" , image: "/images/Team/Freshers25/HarithSyam.png"},
+      { name: "Harith Syam M", role: "Electrical Trainee", department: "Electrical Engineering", linkedin: "#", instagram: "https://www.instagram.com/harith.syam?igsh=MTgwYnd2MWhxMTVrcw==" , image: "/images/Team/Freshers25/HarithSyam.png"},
       { name: "Mantra Nimesh Shah", role: "Electrical Trainee", department: "Electrical Engineering", linkedin: "https://www.linkedin.com/in/mantra-shah-ab557a378/", instagram: "https://www.instagram.com/mantra_shah/" , image: "/images/Team/Freshers25/MantraNimeshShah.png"},
     ]
   ],

@@ -11,6 +11,7 @@ import Alumni from './Alumni';
 import Gallery from './Gallery';
 import Blogs from './Blog';
 import SearchWidget from './SearchWidget';
+import KnowledgeTransfer from './KnowledgeTransfer';
 // import { usePageHighlighter } from './usePageHighlighter';
 
 // --- DATA CONFIGURATION ---
@@ -177,7 +178,7 @@ const FooterManager = () => {
           </div>
           <div className="max-w-6xl mx-auto px-6 text-center">
             <h3 className="text-3xl font-bold mb-8 text-white">Corporate Support</h3>
-            <a 
+            <a
               href="mailto:auv.iitb@gmail.com"
               className="inline-block bg-black border border-gray-600 text-white px-8 py-3 rounded-full font-bold uppercase tracking-widest hover:bg-cyan-900 hover:border-cyan-400 transition-all"
             >
@@ -242,7 +243,7 @@ function MainContent() {
       <nav className="fixed top-0 w-full z-50 bg-[#0B1120]/90 backdrop-blur-md border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
-            
+
             {/* Logo */}
             <Link to="/" className="flex-shrink-0 flex items-center cursor-pointer" onClick={closeMobileMenu}>
               <img src="/images/logoauv.png" alt="AUV-IITB Logo" className="h-10 md:h-12 w-auto object-contain" />
@@ -269,9 +270,9 @@ function MainContent() {
                     </div>
                   </div>
                 </div>
-                
-                 {/* Desktop Media Dropdown */}
-                 <div className="relative group">
+
+                {/* Desktop Media Dropdown */}
+                <div className="relative group">
                   <button className="flex items-center hover:text-cyan-400 transition-colors focus:outline-none py-4">
                     MEDIA <ChevronDown className="w-4 h-4 ml-1 group-hover:rotate-180 transition-transform duration-300" />
                   </button>
@@ -282,13 +283,13 @@ function MainContent() {
                     </div>
                   </div>
                 </div>
-                
+                {/* <Link to="/ktf" className="hover:text-cyan-400 transition-colors">Resources</Link> */}
 
-                {/* --- UPDATE 1: Contact Link uses new Handler --- */}
+
                 <a href="/#contact" onClick={handleContactClick} className="hover:text-cyan-400 transition-colors">Contact</a>
-              <div className="pl-4 border-l border-gray-700">
-            <SearchWidget />
-          </div>
+                <div className="pl-4 border-l border-gray-700">
+                  <SearchWidget />
+                </div>
               </div>
 
             </div>
@@ -302,11 +303,11 @@ function MainContent() {
           </div>
         </div>
 
-        {/* --- MOBILE MENU OVERLAY --- */}
+
         {isMobileMenuOpen && (
           <div className="md:hidden absolute top-20 left-0 w-full bg-[#0B1120] border-b border-gray-800 shadow-2xl animate-fadeIn h-[calc(100vh-5rem)] overflow-y-auto">
             <div className="px-4 pt-4 pb-8 space-y-2">
-              
+
               {/* Mobile Search */}
               <div className="mb-6 w-full"><SearchWidget /></div>
 
@@ -317,42 +318,42 @@ function MainContent() {
 
               {/* Mobile Team Dropdown */}
               <div>
-                 <button onClick={() => setActiveMobileDropdown(activeMobileDropdown === 'team' ? null : 'team')} className="w-full flex justify-between items-center px-3 py-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800">
-                   TEAM <ChevronDown className={`w-4 h-4 transition-transform ${activeMobileDropdown === 'team' ? 'rotate-180' : ''}`} />
-                 </button>
-                 {activeMobileDropdown === 'team' && (
-                   <div className="pl-6 space-y-1 bg-gray-900/50 rounded-lg mt-1 mb-2">
-                     <Link to="/team25" onClick={closeMobileMenu} className="block px-3 py-2 text-sm text-gray-400">Team 2026</Link>
-                     <Link to="/team24" onClick={closeMobileMenu} className="block px-3 py-2 text-sm text-gray-400">Team 2025</Link>
-                     <Link to="/alumni" onClick={closeMobileMenu} className="block px-3 py-2 text-sm text-gray-400">Alumni</Link>
-                   </div>
-                 )}
+                <button onClick={() => setActiveMobileDropdown(activeMobileDropdown === 'team' ? null : 'team')} className="w-full flex justify-between items-center px-3 py-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800">
+                  TEAM <ChevronDown className={`w-4 h-4 transition-transform ${activeMobileDropdown === 'team' ? 'rotate-180' : ''}`} />
+                </button>
+                {activeMobileDropdown === 'team' && (
+                  <div className="pl-6 space-y-1 bg-gray-900/50 rounded-lg mt-1 mb-2">
+                    <Link to="/team25" onClick={closeMobileMenu} className="block px-3 py-2 text-sm text-gray-400">Team 2026</Link>
+                    <Link to="/team24" onClick={closeMobileMenu} className="block px-3 py-2 text-sm text-gray-400">Team 2025</Link>
+                    <Link to="/alumni" onClick={closeMobileMenu} className="block px-3 py-2 text-sm text-gray-400">Alumni</Link>
+                  </div>
+                )}
               </div>
 
               {/* Mobile Media Dropdown */}
               <div>
-                 <button onClick={() => setActiveMobileDropdown(activeMobileDropdown === 'media' ? null : 'media')} className="w-full flex justify-between items-center px-3 py-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800">
-                   MEDIA <ChevronDown className={`w-4 h-4 transition-transform ${activeMobileDropdown === 'media' ? 'rotate-180' : ''}`} />
-                 </button>
-                 {activeMobileDropdown === 'media' && (
-                   <div className="pl-6 space-y-1 bg-gray-900/50 rounded-lg mt-1 mb-2">
-                     <Link to="/blogs" onClick={closeMobileMenu} className="block px-3 py-2 text-sm text-gray-400">Blogs</Link>
-                     <Link to="/gallery" onClick={closeMobileMenu} className="block px-3 py-2 text-sm text-gray-400">Gallery</Link>
-                   </div>
-                 )}
+                <button onClick={() => setActiveMobileDropdown(activeMobileDropdown === 'media' ? null : 'media')} className="w-full flex justify-between items-center px-3 py-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800">
+                  MEDIA <ChevronDown className={`w-4 h-4 transition-transform ${activeMobileDropdown === 'media' ? 'rotate-180' : ''}`} />
+                </button>
+                {activeMobileDropdown === 'media' && (
+                  <div className="pl-6 space-y-1 bg-gray-900/50 rounded-lg mt-1 mb-2">
+                    <Link to="/blogs" onClick={closeMobileMenu} className="block px-3 py-2 text-sm text-gray-400">Blogs</Link>
+                    <Link to="/gallery" onClick={closeMobileMenu} className="block px-3 py-2 text-sm text-gray-400">Gallery</Link>
+                  </div>
+                )}
               </div>
 
               {/* --- UPDATE 2: Mobile Contact Link uses Handler --- */}
-              <a href="/#contact" onClick={handleContactClick} className="block px-3 py-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800">Contact</a>
-                 <div className="mb-6 w-full flex justify-center">
-            <SearchWidget />
-        </div>
+              {/* <a href="/#contact" onClick={handleContactClick} className="block px-3 py-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800">Contact</a>
+              <div className="mb-6 w-full flex justify-center">
+                <SearchWidget />
+              </div> */}
             </div>
           </div>
         )}
       </nav>
 
-      {/* --- ROUTES --- */ }
+      {/* --- ROUTES --- */}
       <div className="flex-grow">
         <Routes>
           {/* HOME PAGE */}
@@ -413,26 +414,53 @@ function MainContent() {
                 </h2>
                 <p className="text-gray-400 mb-12 w-full text-lg leading-relaxed">Our team's flagship series of AUVs, the Matsya series, consists of 7 vehicles named Matsya 1 to 7.
                   Matsya 1 was the first AUV developed in 2013, and Matsya 7 is the latest.</p>
-                <div className="flex flex-col md:flex-row gap-4 h-[500px] w-full">
+                <div className="flex flex-col md:flex-row gap-4 md:h-[500px] w-full">
                   {fleet.map((item) => (
-                    <div key={item.id} onClick={() => setActiveFleetId(item.id)} className={`relative cursor-pointer rounded-2xl overflow-hidden transition-all duration-700 ease-in-out bg-gray-900 border border-gray-800 ${activeFleetId === item.id ? 'flex-[3]' : 'flex-[1] hover:flex-[1.2] grayscale hover:grayscale-0'}`}>
-                      <img src={item.img} alt={item.name} className="absolute inset-0 w-full h-full object-cover opacity-60 hover:opacity-100 transition-opacity duration-500" />
-                      <div className={`absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-[#0B1120] via-[#0B1120]/90 to-transparent transition-opacity duration-500 ${activeFleetId === item.id ? 'opacity-100' : 'opacity-0 md:opacity-100'}`}>
-                        <h3 className={`font-bold text-white uppercase mb-2 transition-all duration-500 whitespace-nowrap ${activeFleetId === item.id ? 'text-3xl text-cyan-400' : 'text-xl md:-rotate-90'}`}>{item.name}</h3>
-                        {activeFleetId === item.id && (<p className="text-gray-300 text-sm md:text-base animate-fadeIn border-l-2 border-cyan-500 pl-4 mt-4">{item.desc}</p>)}
+                    <div
+                      key={item.id}
+                      onClick={() => setActiveFleetId(item.id)}
+                      className={`relative cursor-pointer rounded-2xl overflow-hidden transition-all duration-700 ease-in-out bg-gray-900 border border-gray-800 
+                  ${activeFleetId === item.id
+                          // Active Mobile: Height 350px | Active Desktop: Flex 3
+                          ? 'h-[350px] md:h-full md:flex-[3]'
+                          // Inactive Mobile: Height 64px | Inactive Desktop: Flex 1
+                          : 'h-[64px] md:h-full md:flex-[1] hover:md:flex-[1.2] grayscale hover:grayscale-0'
+                        }`}
+                    >
+                      <img
+                        src={item.img}
+                        alt={item.name}
+                        className="absolute inset-0 w-full h-full object-cover opacity-60 hover:opacity-100 transition-opacity duration-500"
+                      />
+
+                      {/* Text Container: Uses flex-col justify-end to stay at the bottom */}
+                      <div className="absolute inset-0 p-4 md:p-6 flex flex-col justify-end bg-gradient-to-t from-[#0B1120] via-[#0B1120]/70 to-transparent">
+                        <h3 className={`font-bold text-white uppercase transition-all duration-500 whitespace-nowrap z-10 
+                    ${activeFleetId === item.id
+                            ? 'text-2xl md:text-3xl text-cyan-400 mb-2'
+                            : 'text-lg md:text-xl md:-rotate-90 md:absolute md:bottom-12 md:left-1/2 md:-translate-x-1/2'
+                          }`}
+                        >
+                          {item.name}
+                        </h3>
+
+                        {activeFleetId === item.id && (
+                          <p className="text-gray-300 text-sm md:text-base animate-fadeIn border-l-2 border-cyan-500 pl-3 md:pl-4 mt-2 max-h-[150px] overflow-y-auto md:max-h-none z-10 relative pr-2">
+                            {item.desc}
+                          </p>
+                        )}
                       </div>
                     </div>
                   ))}
                 </div>
               </section>
 
-              {/* --- UPDATE 3: Added ID to Contact Section --- */}
               <section id="contact" className="max-w-6xl mx-auto px-6 py-20">
                 <h2 className="text-4xl md:text-5xl font-bold uppercase text-white mb-8 border-l-4 border-cyan-400 pl-6">
                   Contact Us
                 </h2>
-                <div className="flex justify-center gap-12 md:gap-32">
-                  <a 
+                <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-32">
+                  <a
                     href="https://www.google.com/maps/search/?api=1&query=AUV+Lab+Aerospace+Department+IIT+Bombay"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -441,17 +469,17 @@ function MainContent() {
                     <MapPin className="w-16 h-16 text-cyan-400 transition-all duration-500 group-hover:opacity-0 group-hover:scale-50" />
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
                       <span className="text-sm font-semibold text-cyan-400">AUV Lab,
-    Aerospace Department Basement,
-    YP Road, IIT Area, Powai,
-    Mumbai, Maharashtra - 400076</span>
+                        Aerospace Department Basement,
+                        YP Road, IIT Area, Powai,
+                        Mumbai, Maharashtra - 400076</span>
                     </div>
                   </a>
                   <div className="group relative w-64 h-32 flex items-center justify-center text-center">
                     <Phone className="w-16 h-16 text-cyan-400 transition-all duration-500 group-hover:opacity-0 group-hover:scale-50" />
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
                       <span className="text-sm font-semibold text-cyan-400">Anirudh Jangid : +91 78785 92501
-      Khushajh Verma : +91 99505 25333
-      Sparsh Badjate : +91 70308 80070</span>
+                        Khushajh Verma : +91 99505 25333
+                        Sparsh Badjate : +91 70308 80070</span>
                     </div>
                   </div>
                   <div className="group relative w-48 h-32 flex items-center justify-center text-center">
@@ -473,10 +501,12 @@ function MainContent() {
           <Route path="/alumni" element={<Alumni />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/blogs" element={<Blogs />} />
+          <Route path="/blogs" element={<Blogs />} />
+          <Route path="/ktf" element={<KnowledgeTransfer />} /> 
         </Routes>
       </div>
 
-      {/* --- DYNAMIC FOOTER --- */ }
+      {/* --- DYNAMIC FOOTER --- */}
       <FooterManager />
 
     </div>

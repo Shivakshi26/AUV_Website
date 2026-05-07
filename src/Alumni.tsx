@@ -1,5 +1,5 @@
 import  { useRef } from 'react';
-import {ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
+import {ChevronLeft, ChevronRight, ExternalLink, Quote } from 'lucide-react';
 
 // --- DATA: Companies Founded (Top Carousel) ---
 const companiesFounded = [
@@ -26,7 +26,7 @@ const companiesFounded = [
   },
   {
     name: "Mailmodo",
-    founder: "Dyevesh Tandani)",
+    founder: "Devyesh Tandon",
     desc: " Mailmodon is an AI-powered, no-code email marketing platform designed to increase conversions and ROI by enabling users to create and send interactive, app-like AMP (Accelerated Mobile Pages) emails",
     logo: "https://www.auv-iitb.org/images/Startups/mailmodo.png",
     link: "https://www.mailmodo.com/"
@@ -51,22 +51,29 @@ const companiesFounded = [
 
 
 // --- DATA: Testimonials ---
-// const testimonials = [
-//   {
-//     id: 1,
-//     name: "Rahul Sharma",
-//     batch: "Mechanical Lead, Batch of 2021",
-//     image: "/images/team24/member1.jpg",
-//     quote: "AUV-IITB was the defining experience of my college life. Working on Matsya taught me more about real-world engineering, teamwork, and resilience than any classroom course."
-//   },
-//   {
-//     id: 2,
-//     name: "Priya Patel",
-//     batch: "Software Lead, Batch of 2022",
-//     image: "/images/team24/member3.jpg",
-//     quote: "The sheer complexity of building an autonomous vehicle is daunting, but tackling it with this team gave me immense confidence. The skills I gained here directly helped me secure my dream job."
-//   },
-// ];
+const testimonials = [
+  {
+    id: 1,
+    name: "Kaustubh Chourasia",
+    batch: "Team Lead 2024",
+    image: "/images/RS2024 Website Photo/Kaustubh Chaurasia.jpg",
+    quote: "My time at AUV was driven by a simple goal to leave the team better than when I joined it. From the emotional highs of my first summer in 2022 to the unforgettable moment at RoboSub 2024, the journey was intense and deeply meaningful. Over time I realized something important: you don’t stay for the achievements, you stay for the teammates. The bonds, the struggles, and the shared wins are what truly define the experience."
+  },
+  {
+    id: 2,
+    name: "Parvik Dave",
+    batch: "Team Lead 2023",
+    image: "/images/Team/Alum photos/Folder-1/Parvik Dave.jpg",
+    quote: "My 3rd and 4th years at AUV were the most fun for me. The lab slowly became a second home, and the friendships we built there turned into a ritual that helped me get through insti life. From course projects to RoboSub prep, the best part was testing, watching something you worked on all year, finally run. Through the chaos, I learned patience, resilience, and found a group of people I still carry with me."
+  },
+  {
+    id: 3,
+    name: "Devansh Sharma",
+    batch: "Team Lead 2019",
+    image: "/images/Team/Alum photos/Folder-4/Devansh Sharma.jpg",
+    quote: "I joined AUV for the hands-on tech, but I stayed for everything that came with it. Over time, I took on responsibilities like training freshers and dividing work to managing larger team efforts. I was surprised by how much of it was about people, planning, and ownership. Leading a big team taught me initiative and accountability. My advice: take ownership of what you do, when you do, everything starts coming together."
+  },
+];
 
 // --- COMPONENT: Alumni Card ---
 // const AlumniCard = ({ member }: { member: any }) => (
@@ -90,23 +97,23 @@ const companiesFounded = [
 // );
 
 // --- COMPONENT: Testimonial Card ---
-// const TestimonialCard = ({ data }: { data: any }) => (
-//   <div className="bg-[#162032] border border-gray-800 p-8 rounded-2xl shadow-lg flex flex-col md:flex-row gap-8 items-start relative hover:border-cyan-900 transition-colors">
-//     <Quote className="absolute top-6 right-6 text-cyan-950 w-16 h-16 opacity-50" />
-//     <div className="flex-shrink-0 relative">
-//       <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-cyan-400 p-1 shadow-lg">
-//         <img src={data.image} alt={data.name} className="w-full h-full object-cover rounded-full grayscale hover:grayscale-0 transition-all" />
-//       </div>
-//     </div>
-//     <div className="relative z-10">
-//       <p className="text-gray-300 italic text-lg leading-relaxed mb-6">"{data.quote}"</p>
-//       <div>
-//         <h4 className="text-xl font-bold text-white uppercase tracking-wider">{data.name}</h4>
-//         <span className="text-cyan-400 text-sm font-medium">{data.batch}</span>
-//       </div>
-//     </div>
-//   </div>
-// );
+const TestimonialCard = ({ data }: { data: any }) => (
+  <div className="bg-[#162032] border border-gray-800 p-8 rounded-2xl shadow-lg flex flex-col md:flex-row gap-8 items-start relative hover:border-cyan-900 transition-colors">
+    <Quote className="absolute top-6 right-6 text-cyan-950 w-16 h-16 opacity-50" />
+    <div className="flex-shrink-0 relative">
+      <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-cyan-400 p-1 shadow-lg">
+       <img src={data.image} alt={data.name} className="w-full h-full object-cover rounded-full transition-all" />
+       </div>
+    </div>
+    <div className="relative z-10">
+      <p className="text-gray-300 italic text-lg leading-relaxed mb-6">"{data.quote}"</p>
+      <div>
+        <h4 className="text-xl font-bold text-white uppercase tracking-wider">{data.name}</h4>
+        <span className="text-cyan-400 text-sm font-medium">{data.batch}</span>
+      </div>
+    </div>
+  </div>
+);
 
 // --- MAIN PAGE ---
 export default function Alumni() {
@@ -191,7 +198,7 @@ export default function Alumni() {
         </div>
       </section>
       {/* ---TESTIMONIALS --- */}
-      {/* <section className="max-w-7xl mx-auto px-6 py-16 bg-[#0f172a]/50 rounded-3xl border border-gray-800">
+      <section className="max-w-7xl mx-auto px-6 py-16 bg-[#0f172a]/50 rounded-3xl border border-gray-800">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold uppercase text-white mb-4 tracking-wide inline-block border-b-4 border-cyan-400 pb-2">
             Alumni Speak
@@ -203,7 +210,7 @@ export default function Alumni() {
             <TestimonialCard key={testi.id} data={testi} />
           ))}
         </div>
-      </section> */}
+      </section>
 
     </div>
   );

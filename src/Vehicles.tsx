@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 // --- DATA: Vehicle Details ---
 const vehiclesData = [
@@ -229,7 +230,7 @@ const vehiclesData = [
       { label: "Pressure Vessels", value: "Monohull design, housing on board computer,ESCs,Cameras, Acoustic Data, Acquisition Unit" },
       { label: "Actuation System", value: "Assembly of eight thrusters, Electromechanical Marker Dropper, Torpedo Shooter, Gripper" },
       { label: "Power", value: "2 Lipo Batteries" },
-      { label: "Feedback Control", value: "OakD (sterevision camera),DVL, IMU (Inertial Measurement Unit), Depth Sensor" },
+      { label: "Feedback Control", value: "OakD and OakW (sterevision camera),DVL, IMU (Inertial Measurement Unit), Depth Sensor" },
     ],
     img: "https://www.auv-iitb.org/images/vehicles/M7.png",
     subsystems: [
@@ -254,8 +255,19 @@ const vehiclesData = [
 
 
 
-export default function Vehicles() {
-  const [activeId, setActiveId] = useState(7); // M7 is default
+  export default function Vehicles() {
+  const [searchParams] = useSearchParams();
+  const urlId = searchParams.get('id');
+
+  const [activeId, setActiveId] = useState(urlId ? parseInt(urlId) : 7); 
+
+  useEffect(() => {
+    if (urlId) {
+      setActiveId(parseInt(urlId));
+    }
+  }, [urlId]);
+
+  // const [activeId, setActiveId] = useState(7); // M7 is default
   const activeVehicle = vehiclesData.find(v => v.id === activeId) || vehiclesData[6];
 
   // Refs to access DOM elements directly
