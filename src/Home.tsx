@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
-import { MapPin, Phone, Mail, ChevronRight, Twitter, Facebook, Instagram, Linkedin, ChevronDown, Menu, X } from 'lucide-react';
+import { MapPin, Phone, Mail, ChevronRight, Instagram, Linkedin, ChevronDown, Menu, X, Send, Youtube } from 'lucide-react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
+import emailjs from 'emailjs-com';
 import Achievements from './Achievements';
 import Vehicles from './Vehicles';
 import RoboSub from './RoboSub';
@@ -37,17 +38,17 @@ const fleet = [
 const sponsors = [
   { id: 1, name: "Luxonis", logo: "/images/sponsors/luxonis.png", link: "https://www.luxonis.com/" },
   { id: 2, name: "WaterLinked", logo: "/images/sponsors/waterlinked.png", link: "https://waterlinked.com" },
-  { id: 3, name: "L&T", logo: "/images/sponsors/Lnt.png", link: "https://www.larsentoubro.com/" },
-  { id: 4, name: "IDC-IITB", logo: "/images/sponsors/idciitb.png", link: "https://idc.iitb.ac.in" },
-  { id: 5, name: "ParkerLord", logo: "/images/sponsors/parkerlord.png", link: "https://www.parker.com" },
-  { id: 6, name: "NCF Labs", logo: "/images/sponsors/ncf.png", link: "https://ncflabs.com/" },
-  { id: 7, name: "Teachmint", logo: "/images/sponsors/teachmintLogo.png", link: "https://www.teachmint.com" },
-  { id: 8, name: "DRDO", logo: "/images/sponsors/drdo.png", link: "https://www.drdo.gov.in" },
-  { id: 9, name: "IITBombay", logo: "/images/sponsors/iitb.png", link: "https://www.iitb.ac.in" },
-  { id: 10, name: "Autodesk", logo: "/images/sponsors/Autodesk.png", link: "https://www.autodesk.com/" },
-  { id: 11, name: "Miko", logo: "/images/sponsors/miko3.png", link: "https://www.miko.ai" },
-  { id: 12, name: "ANSYS", logo: "/images/sponsors/ansys.png", link: "https://www.ansys.com/" },
-  { id: 13, name: "BlueRobotics", logo: "/images/sponsors/bluerobotics.png", link: "https://bluerobotics.com/" },
+  // { id: 3, name: "L&T", logo: "/images/sponsors/Lnt.png", link: "https://www.larsentoubro.com/" },
+  // { id: 4, name: "IDC-IITB", logo: "/images/sponsors/idciitb.png", link: "https://idc.iitb.ac.in" },
+  // { id: 5, name: "ParkerLord", logo: "/images/sponsors/parkerlord.png", link: "https://www.parker.com" },
+  { id: 3, name: "NCF Labs", logo: "/images/sponsors/ncf.png", link: "https://ncflabs.com/" },
+  { id: 4, name: "Teachmint", logo: "/images/sponsors/teachmintLogo.png", link: "https://www.teachmint.com" },
+  // { id: 8, name: "DRDO", logo: "/images/sponsors/drdo.png", link: "https://www.drdo.gov.in" },
+  { id: 5, name: "IITBombay", logo: "/images/sponsors/iitb.png", link: "https://www.iitb.ac.in" },
+  { id: 6, name: "Autodesk", logo: "/images/sponsors/Autodesk.png", link: "https://www.autodesk.com/" },
+  { id: 7, name: "Miko", logo: "/images/sponsors/miko3.png", link: "https://www.miko.ai" },
+  { id: 8, name: "ANSYS", logo: "/images/sponsors/ansys.png", link: "https://www.ansys.com/" },
+  { id: 9, name: "BlueRobotics", logo: "/images/sponsors/bluerobotics.png", link: "https://bluerobotics.com/" },
 ];
 
 // --- COMPONENTS ---
@@ -89,24 +90,167 @@ const AnimatedCounter = ({ end, suffix, duration = 2000 }: { end: number, suffix
   return <span ref={elementRef}>{Math.floor(count)}{suffix}</span>;
 };
 
+
+
+
+// CONTACT FORM COMPONENT
+const ContactForm = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    address: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  // Initialize EmailJS (replace with your public key from EmailJS)
+  useEffect(() => {
+    emailjs.init('YOUR_PUBLIC_KEY_HERE'); // Get this from EmailJS dashboard
+  }, []);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+    // Validate form
+    if (!formData.name || !formData.email || !formData.address || !formData.message) {
+      alert('Please fill in all fields');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      // Send email using EmailJS
+      await emailjs.send(
+        'YOUR_SERVICE_ID_HERE', // Replace with your EmailJS service ID
+        'YOUR_TEMPLATE_ID_HERE', // Replace with your EmailJS template ID
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          from_address: formData.address,
+          message: formData.message,
+          to_email: 'auv.iitb@gmail.com',
+        }
+      );
+
+      setSubmitStatus('success');
+      setFormData({ name: '', email: '', address: '', message: '' });
+      setTimeout(() => setSubmitStatus('idle'), 5000);
+    } catch (error) {
+      console.error('Error sending email:', error);
+      setSubmitStatus('error');
+      setTimeout(() => setSubmitStatus('idle'), 5000);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div>
+        <label className="block text-sm font-medium text-gray-300 mb-2">Name</label>
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          placeholder="Your Name"
+          className="w-full px-4 py-3 bg-[#162032] border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-cyan-400 focus:outline-none transition-colors"
+          required
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          placeholder="your.email@example.com"
+          className="w-full px-4 py-3 bg-[#162032] border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-cyan-400 focus:outline-none transition-colors"
+          required
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-300 mb-2">Address</label>
+        <input
+          type="text"
+          name="address"
+          value={formData.address}
+          onChange={handleChange}
+          placeholder="Your Address"
+          className="w-full px-4 py-3 bg-[#162032] border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-cyan-400 focus:outline-none transition-colors"
+          required
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-300 mb-2">Message/Question</label>
+        <textarea
+          name="message"
+          value={formData.message}
+          onChange={handleChange}
+          placeholder="Tell us about your inquiry..."
+          rows={4}
+          className="w-full px-4 py-3 bg-[#162032] border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-cyan-400 focus:outline-none transition-colors resize-none"
+          required
+        ></textarea>
+      </div>
+
+      {submitStatus === 'success' && (
+        <div className="p-4 bg-green-900/20 border border-green-600 rounded-lg text-green-400 text-sm">
+          ✓ Message sent successfully! We'll get back to you soon.
+        </div>
+      )}
+
+      {submitStatus === 'error' && (
+        <div className="p-4 bg-red-900/20 border border-red-600 rounded-lg text-red-400 text-sm">
+          ✗ Error sending message. Please try again or email us directly at auv.iitb@gmail.com
+        </div>
+      )}
+
+      <button
+        type="submit"
+        disabled={isSubmitting}
+        className="w-full bg-cyan-600 hover:bg-cyan-700 disabled:bg-gray-600 text-white font-bold py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
+      >
+        <Send className="w-5 h-5" />
+        {isSubmitting ? 'Sending...' : 'Send Message'}
+      </button>
+    </form>
+  );
+};
+
 // 1. STANDARD FOOTER (For all pages except Home)
 const StandardFooter = () => {
   return (
-    <footer className="bg-[#0f172a] text-gray-300 py-16 border-t border-gray-800 mt-auto">
+    <footer className="bg-[#0f172a] text-gray-300 py-16 border-t border-gray-800 mt-auto w-full">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12 justify-items-center md:justify-items-start">
           {/* Address */}
-          <div className="space-y-4">
+          <div className="space-y-4 text-center md:text-left">
             <h3 className="text-2xl font-bold text-white mb-6">AUV-IITB</h3>
             <div className="text-sm leading-relaxed text-gray-400 space-y-1">
               <p>AUV Lab,</p>
-              <p>Aerospace Department Basement,</p>
-              <p>YP Road, IIT Area, Powai,</p>
+              <p>Desai Sethi Centre for Entrepreneurship,</p>
+              <p>IIT Area, Powai,</p>
               <p>Mumbai, Maharashtra - 400076</p>
             </div>
           </div>
           {/* Phone/Email */}
-          <div className="space-y-4 pt-2">
+          <div className="space-y-4 pt-2 text-center md:text-left">
             <div className="text-sm space-y-3">
               <div>
                 <p className="font-bold text-white">Phone:</p>
@@ -120,38 +264,48 @@ const StandardFooter = () => {
               </div>
             </div>
           </div>
+          {/* Follow Us on Social Media */}
+          <div className="space-y-4 text-center md:text-left">
+            <p className="text-sm font-bold text-white">Follow Us</p>
+            <p className="text-sm text-gray-400 mb-4">Follow us on social media</p>
+            <div className="flex justify-center md:justify-start space-x-6">
+              <a href="https://www.instagram.com/auviitb/" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors">
+                <Instagram className="w-5 h-5" />
+              </a>
+              <a href="https://www.linkedin.com/company/auv-iitbombay/" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors">
+                <Linkedin className="w-5 h-5" />
+              </a>
+              <a href="https://www.youtube.com/@auviitb" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors">
+                <Youtube className="w-5 h-5" />
+              </a>
+            </div>
+          </div>
           {/* Links 1 */}
-          <div className="flex flex-col space-y-3 text-sm">
+          {/* <div className="flex flex-col space-y-3 text-sm">
             {['Home', 'Vehicles', 'Achievements', 'Robosub'].map((link) => (
               <Link key={link} to={link === 'Home' ? '/' : '#'} className="flex items-center hover:text-cyan-400 group">
                 <ChevronRight className="w-4 h-4 mr-2 text-cyan-600 group-hover:text-cyan-400" /> {link}
               </Link>
             ))}
-          </div>
+          </div> */}
           {/* Links 2 */}
-          <div className="flex flex-col space-y-3 text-sm">
+          {/* <div className="flex flex-col space-y-3 text-sm">
             {['Team', 'Alumni', 'Gallery', 'Media & Blogs', 'Contact'].map((link) => (
               <a key={link} href="#" className="flex items-center hover:text-cyan-400 group">
                 <ChevronRight className="w-4 h-4 mr-2 text-cyan-600 group-hover:text-cyan-400" /> {link}
               </a>
             ))}
-          </div>
+          </div> */}
         </div>
-        <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
+        <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-center md:justify-start items-center text-xs text-gray-500 w-full">
           <p>Designed by AUV-IITB</p>
-          <div className="flex space-x-6 mt-4 md:mt-0">
-            <Twitter className="w-5 h-5 hover:text-white cursor-pointer" />
-            <Facebook className="w-5 h-5 hover:text-white cursor-pointer" />
-            <Instagram className="w-5 h-5 hover:text-white cursor-pointer" />
-            <Linkedin className="w-5 h-5 hover:text-white cursor-pointer" />
-          </div>
         </div>
       </div>
     </footer>
   );
 };
 
-// 2. FOOTER MANAGER (Decides which footer to show)
+// 2. FOOTER MANAGER 
 const FooterManager = () => {
   const location = useLocation();
   const isHomePage = location.pathname === "/";
@@ -159,33 +313,97 @@ const FooterManager = () => {
   if (isHomePage) {
     // Show Sponsors Footer for Home Page
     return (
-      <footer className="relative bg-blue-950 py-24 overflow-hidden mt-auto">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1551244072-5d9171d42105?auto=format&fit=crop&q=80&w=2000')] bg-cover bg-center opacity-10 mix-blend-overlay"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0B1120] via-transparent to-black/80"></div>
-        <div className="relative z-10 w-full">
-          <div className="relative mb-32 overflow-hidden hover-pause">
-            <div className="absolute top-0 left-0 z-10 h-full w-32 bg-gradient-to-r from-blue-950 to-transparent pointer-events-none"></div>
-            <div className="absolute top-0 right-0 z-10 h-full w-32 bg-gradient-to-l from-blue-950 to-transparent pointer-events-none"></div>
-            <div className="animate-marquee flex gap-8 items-center">
-              {[...sponsors, ...sponsors].map((sponsor, index) => (
-                <a key={`${sponsor.id}-${index}`} href={sponsor.link} target="_blank" rel="noopener noreferrer" className="flex-shrink-0 group">
-                  <div className="w-64 h-32 bg-white/50 rounded-xl flex items-center justify-center p-6 shadow-lg transform transition-transform duration-300 group-hover:scale-105">
-                    <img src={sponsor.logo} alt={sponsor.name} className="max-w-full max-h-full object-contain" />
-                  </div>
-                </a>
-              ))}
+      <>
+        <footer className="relative bg-[#0B1120] border-t border-gray-800 py-24 overflow-hidden mt-auto w-full">
+          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1551244072-5d9171d42105?auto=format&fit=crop&q=80&w=2000')] bg-cover bg-center opacity-10 mix-blend-overlay"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0B1120] via-transparent to-[#0B1120]"></div>
+          <div className="relative z-10 w-full">
+            <div className="relative mb-32 overflow-hidden hover-pause">
+              <div className="absolute top-0 left-0 z-10 h-full w-32 bg-gradient-to-r from-[#0B1120] to-transparent pointer-events-none"></div>
+              <div className="absolute top-0 right-0 z-10 h-full w-32 bg-gradient-to-l from-[#0B1120] to-transparent pointer-events-none"></div>
+              <div className="animate-marquee flex gap-8 items-center">
+                {[...sponsors, ...sponsors].map((sponsor, index) => (
+                  <a key={`${sponsor.id}-${index}`} href={sponsor.link} target="_blank" rel="noopener noreferrer" className="flex-shrink-0 group">
+                    <div className="w-64 h-32 bg-white/50 rounded-xl flex items-center justify-center p-6 shadow-lg transform transition-transform duration-300 group-hover:scale-105">
+                      <img src={sponsor.logo} alt={sponsor.name} className="max-w-full max-h-full object-contain" />
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+            <div className="max-w-6xl mx-auto px-6 py-16" id="joinus">
+              <h2 className="text-4xl font-bold text-center mb-16 text-white">Join Us</h2>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                {/* Google Map */}
+                <div className="rounded-lg overflow-hidden shadow-2xl h-full min-h-96">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3769.0532071447506!2d72.91641410000001!3d19.133236300000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c7f5a38ec7a5%3A0x7227c62b3754ad24!2sDesai%20Sethi%20Centre%20for%20Entrepreneurship!5e0!3m2!1sen!2sin!4v1620000000000"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0, minHeight: '400px' }}
+                    allowFullScreen= ""
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  ></iframe>
+                </div>
+
+                {/* Contact Form */}
+                <ContactForm />
+              </div>
             </div>
           </div>
-          <div className="max-w-6xl mx-auto px-6 text-center">
-            <h3 className="text-3xl font-bold mb-8 text-white">Corporate Support</h3>
-            <a
-              href="mailto:auv.iitb@gmail.com"
-              className="inline-block bg-black border border-gray-600 text-white px-8 py-3 rounded-full font-bold uppercase tracking-widest hover:bg-cyan-900 hover:border-cyan-400 transition-all"
-            >
-              Join Us
-            </a>          </div>
-        </div>
-      </footer>
+        </footer>
+        <footer className="bg-[#0f172a] text-gray-300 py-16 border-t border-gray-800 w-full">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12 justify-items-center md:justify-items-start">
+              {/* Address */}
+              <div className="space-y-4 text-center md:text-left">
+                <h3 className="text-2xl font-bold text-white mb-6">AUV-IITB</h3>
+                <div className="text-sm leading-relaxed text-gray-400 space-y-1">
+                  <p>AUV Lab,</p>
+                  <p>Desai Sethi Centre for Entrepreneurship,</p>
+                  <p>IIT Area, Powai,</p>
+                  <p>Mumbai, Maharashtra - 400076</p>
+                </div>
+              </div>
+              {/* Phone/Email */}
+              <div className="space-y-4 pt-2 text-center md:text-left">
+                <div className="text-sm space-y-3">
+                  <div>
+                    <p className="font-bold text-white">Phone:</p>
+                    <p>Anirudh Jangid: +91 78785 92501</p>
+                    <p>Khushajh Verma: +91 99505 25333</p>
+                    <p>Sparsh Badjate: +91 70308 80070</p>
+                  </div>
+                  <div>
+                    <p className="font-bold text-white mt-4">Email:</p>
+                    <a href="mailto:auv.iitb@gmail.com" className="hover:text-cyan-400">auv.iitb@gmail.com</a>
+                  </div>
+                </div>
+              </div>
+              {/* Follow Us on Social Media */}
+              <div className="space-y-4 text-center md:text-left">
+                <p className="text-sm font-bold text-white">Follow Us</p>
+                <p className="text-sm text-gray-400 mb-4">Follow us on social media</p>
+                <div className="flex justify-center md:justify-start space-x-6">
+                  <a href="https://www.instagram.com/auviitb/" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors">
+                    <Instagram className="w-5 h-5" />
+                  </a>
+                  <a href="https://www.linkedin.com/company/auv-iitbombay/" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors">
+                    <Linkedin className="w-5 h-5" />
+                  </a>
+                  <a href="https://www.youtube.com/@auviitb" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors">
+                    <Youtube className="w-5 h-5" />
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-center md:justify-start items-center text-xs text-gray-500 w-full">
+              <p>Designed by AUV-IITB</p>
+            </div>
+          </div>
+        </footer>
+      </>
     );
   }
 
@@ -209,8 +427,8 @@ function MainContent() {
 
   // 1. Check for Hash on Page Load (or Route Change)
   useEffect(() => {
-    if (location.hash === '#contact') {
-      const contactSection = document.getElementById('contact');
+    if (location.hash === '#joinus') {
+      const contactSection = document.getElementById('joinus');
       if (contactSection) {
         // Small timeout ensures DOM is fully rendered before scrolling
         setTimeout(() => {
@@ -225,13 +443,13 @@ function MainContent() {
     e.preventDefault();
     if (location.pathname === '/') {
       // If we are already on Home, just scroll
-      const contactSection = document.getElementById('contact');
+      const contactSection = document.getElementById('joinus');
       if (contactSection) {
         contactSection.scrollIntoView({ behavior: 'smooth' });
       }
     } else {
       // If we are elsewhere, navigate to Home with hash
-      navigate('/#contact');
+      navigate('/#joinus');
     }
     closeMobileMenu();
   };
@@ -283,13 +501,13 @@ function MainContent() {
                     </div>
                   </div>
                 </div>
-                {/* <Link to="/ktf" className="hover:text-cyan-400 transition-colors">Resources</Link> */}
+                <Link to="/ktf" className="hover:text-cyan-400 transition-colors">Resources</Link>
 
 
-                <a href="/#contact" onClick={handleContactClick} className="hover:text-cyan-400 transition-colors">Contact</a>
-                <div className="pl-4 border-l border-gray-700">
+                <a href="/#joinus" onClick={handleContactClick} className="hover:text-cyan-400 transition-colors">Contact</a>
+                {/* <div className="pl-4 border-l border-gray-700">
                   <SearchWidget />
-                </div>
+                </div> */}
               </div>
 
             </div>
@@ -373,7 +591,7 @@ function MainContent() {
                       About Us
                     </h2>
                     <p>
-                      AUV-IITB comprises 50+ highly enthusiastic and hard-working technocrats on underwater robotics ranging from freshmen to senior undergraduates and experienced post-graduates spanning various branches of engineering at the Indian Institute of Technology Bombay.
+                      AUV-IITB comprises 50+ highly enthusiastic and hard-working technocrats on underwater robotics ranging from freshmen to senior undergraduates spanning various branches of engineering at the Indian Institute of Technology Bombay.
                     </p>
                     <p>
                       We work on Matsya, a series of Autonomous Underwater Vehicles (AUVs) to deliver a research platform in underwater robotics and promote autonomous systems. The team's vision is to develop state-of-the-art AUVs capable of localization, navigation, and performing complex tasks in an underwater environment.
@@ -393,7 +611,7 @@ function MainContent() {
                 </div>
               </section>
 
-              <section className="bg-[#0B1120] py-16 border-y border-gray-900">
+              {/* <section className="bg-[#0B1120] py-16 border-y border-gray-900">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-y-12 gap-x-8">
                     {stats.map((stat, idx) => (
@@ -406,7 +624,7 @@ function MainContent() {
                     ))}
                   </div>
                 </div>
-              </section>
+              </section> */}
 
               <section className="max-w-6xl mx-auto px-6 py-20">
                 <h2 className="text-4xl md:text-5xl font-bold uppercase text-white mb-8 border-l-4 border-cyan-400 pl-6">
@@ -455,7 +673,7 @@ function MainContent() {
                 </div>
               </section>
 
-              <section id="contact" className="max-w-6xl mx-auto px-6 py-20">
+              {/* <section id="contact" className="max-w-6xl mx-auto px-6 py-20">
                 <h2 className="text-4xl md:text-5xl font-bold uppercase text-white mb-8 border-l-4 border-cyan-400 pl-6">
                   Contact Us
                 </h2>
@@ -489,7 +707,7 @@ function MainContent() {
                     </div>
                   </div>
                 </div>
-              </section>
+              </section> */}
             </>
           } />
           <Route path="/achievements" element={<Achievements />} />

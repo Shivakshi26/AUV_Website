@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 // --- DATA: Vehicle Details ---
 const vehiclesData = [
@@ -270,6 +271,23 @@ const vehiclesData = [
   // const [activeId, setActiveId] = useState(7); // M7 is default
   const activeVehicle = vehiclesData.find(v => v.id === activeId) || vehiclesData[6];
 
+  // --- CREATE EXTENDED CAROUSEL DATA WITH WRAPPING ---
+  // Add first and last items at the end/beginning for cyclic carousel
+  const extendedVehiclesData = [
+    vehiclesData[vehiclesData.length - 1], // Last item (Matsya 7) at the beginning
+    ...vehiclesData,
+    vehiclesData[0] // First item (Matsya 1) at the end
+  ];
+
+  // --- CYCLIC NAVIGATION HANDLERS ---
+  const handlePrevious = () => {
+    setActiveId(activeId === 1 ? vehiclesData.length : activeId - 1);
+  };
+
+  const handleNext = () => {
+    setActiveId(activeId === vehiclesData.length ? 1 : activeId + 1);
+  };
+
   // Refs to access DOM elements directly
   const containerRef = useRef<HTMLDivElement>(null);
   const itemsRef = useRef<(HTMLDivElement | null)[]>([]);
@@ -282,7 +300,8 @@ const vehiclesData = [
 
     const animateScroll = (currentTime: number) => {
       const elapsed = currentTime - startTime;
-      const item = itemsRef.current[activeId - 1];
+      // In extendedVehiclesData, the actual items are at indices 1-8 (index 0 is the duplicate of the last item)
+      const item = itemsRef.current[activeId];
       const container = containerRef.current;
 
       if (item && container) {
@@ -310,16 +329,25 @@ const vehiclesData = [
   return (
     <div className="min-h-screen bg-[#0B1120] text-white pt-24 pb-20 overflow-x-hidden">
 
-      {/* --- 1. FULL SCREEN CAROUSEL --- */}
+      {/* --- 1. FULL SCREEN CAROUSEL WITH NAVIGATION --- */}
       <section className="w-full mb-16 relative">
+        {/* Left Navigation Arrow */}
+        <button
+          onClick={handlePrevious}
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center w-12 h-12 md:w-16 md:h-16 bg-cyan-600 hover:bg-cyan-500 transition-all duration-300 rounded-full shadow-lg"
+          aria-label="Previous vehicle"
+        >
+          <ChevronLeft className="w-6 h-6 md:w-8 md:h-8 text-white" />
+        </button>
+
         <div
           ref={containerRef}
           className="flex gap-4 py-8 overflow-x-auto overflow-y-hidden px-[50vw] scrollbar-hide"
           style={{ scrollBehavior: 'auto' }} 
         >
-          {vehiclesData.map((v, index) => (
+          {extendedVehiclesData.map((v, index) => (
             <div
-              key={v.id}
+              key={`${v.id}-${index}`}
               ref={(el) => { itemsRef.current[index] = el; }}
               onClick={() => setActiveId(v.id)}
               className={`flex-shrink-0 relative rounded-xl overflow-hidden cursor-pointer transition-all duration-700 ease-[cubic-bezier(0.25,0.8,0.25,1)] border-2
@@ -342,6 +370,15 @@ const vehiclesData = [
             </div>
           ))}
         </div>
+
+        {/* Right Navigation Arrow */}
+        <button
+          onClick={handleNext}
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center w-12 h-12 md:w-16 md:h-16 bg-cyan-600 hover:bg-cyan-500 transition-all duration-300 rounded-full shadow-lg"
+          aria-label="Next vehicle"
+        >
+          <ChevronRight className="w-6 h-6 md:w-8 md:h-8 text-white" />
+        </button>
       </section>
 
       {/* --- 2. MAIN SPECS & 3D MODEL SECTION --- */}

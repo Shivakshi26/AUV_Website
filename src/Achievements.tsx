@@ -65,30 +65,30 @@ const journeyItems = [
 ];
 
 
-// Data for R&D Section
-const researchItems = [
-  {
-    title: "Software",
-    desc1: "The system employs an Unscented Kalman Filter (UKF) to fuse data from multiple sensors, providing a robust and accurate estimate of the vehicle’s position and orientation. All perception, estimation, and control algorithms run on the NVIDIA Jetson Orin Nano, enabling high-speed performance. Visual orientation is further refined using XFeat, which matches features from the live camera stream with reference object images to improve pose estimation relative to known objects. ",
-    desc2: "On the control and navigation side, a long–short PID controller is implemented to achieve faster settling time and higher accuracy across both near and far setpoints, with force interpolation ensuring smooth control over a wide operating range. An in-house SLAM framework is being developed for accurate mapping and trajectory reconstruction, and it is integrated with object detection using YOLO to improve localization relative to detected objects. Together, these components enable precise localization, stable control, and reliable autonomous operation in complex environments.  "
-  },
-  {
-    title: "Mechanical",
-    desc1: "To extend mission endurance, we explored larger battery hull designs capable of accommodating 22,000 mAh batteries, upgrading from the earlier 16,000 mAh configuration. In parallel, a more robust torpedo shooter mechanism was developed, supported by iterative design and testing of multiple 3D-printed torpedo variants, where properties such as hydrodynamic geometry, material and its density were optimized for performance. ",
-    desc2: "Significant effort was also directed toward improving system sealing and reliability. Trigger latch mechanisms were evaluated to prevent accidental water ingress, and multiple Ethernet connector sealing strategies were investigated to address accidental seepage issues. Additionally, a four-link mechanical gripper arm was designed and developed to enable reliable object manipulation during operations. "
-  },
-  {
-    title: "Electrical",
-    desc1: "To improve system reliability and power monitoring, a custom Battery Management System (BMS) is being implemented to provide real-time battery percentage monitoring and battery protection by balancing individual cell voltages. The control architecture is being transitioned from a Raspberry Pi Pico–based setup to an STM32 platform, enabling more deterministic and robust real-time control. ",
-  desc2: "In parallel, research is being conducted on underwater communication between M7 and Mini Matsya to support coordinated operations. To achieve finer propulsion control, an in-house Electronic Speed Controller (ESC) is under development for the vehicle thrusters. The power subsystem is further enhanced with USB-C Power Delivery using a dedicated USB PD IC, while a dual Pico configuration is employed to ensure reliable PWM generation and robust sensor communication. "
-  },
-  {
-    title: "Mini Matsya",
-    desc1: "The vehicle is designed to operate primarily using cameras and an IMU, making visual feature mapping essential for localization and navigation. A front-facing and a bottom-facing camera are used to support perception and task execution. The vehicle is intended to perform barrel roll, gate, and slalom tasks while operating with five degrees of freedom, intentionally excluding pitch to simplify control. ",
-    desc2: " Thruster configuration is optimized to reduce weight and size, with a strong emphasis on mechanical simplicity. The design prioritizes ease of manufacturing and limited, well-defined capabilities, and is fabricated using laser cutting, welding, and CNC machining, building upon the proven Matsya series architecture. "
-  }
+// // Data for R&D Section
+// const researchItems = [
+//   {
+//     title: "Software",
+//     desc1: "The system employs an Unscented Kalman Filter (UKF) to fuse data from multiple sensors, providing a robust and accurate estimate of the vehicle’s position and orientation. All perception, estimation, and control algorithms run on the NVIDIA Jetson Orin Nano, enabling high-speed performance. Visual orientation is further refined using XFeat, which matches features from the live camera stream with reference object images to improve pose estimation relative to known objects. ",
+//     desc2: "On the control and navigation side, a long–short PID controller is implemented to achieve faster settling time and higher accuracy across both near and far setpoints, with force interpolation ensuring smooth control over a wide operating range. An in-house SLAM framework is being developed for accurate mapping and trajectory reconstruction, and it is integrated with object detection using YOLO to improve localization relative to detected objects. Together, these components enable precise localization, stable control, and reliable autonomous operation in complex environments.  "
+//   },
+//   {
+//     title: "Mechanical",
+//     desc1: "To extend mission endurance, we explored larger battery hull designs capable of accommodating 22,000 mAh batteries, upgrading from the earlier 16,000 mAh configuration. In parallel, a more robust torpedo shooter mechanism was developed, supported by iterative design and testing of multiple 3D-printed torpedo variants, where properties such as hydrodynamic geometry, material and its density were optimized for performance. ",
+//     desc2: "Significant effort was also directed toward improving system sealing and reliability. Trigger latch mechanisms were evaluated to prevent accidental water ingress, and multiple Ethernet connector sealing strategies were investigated to address accidental seepage issues. Additionally, a four-link mechanical gripper arm was designed and developed to enable reliable object manipulation during operations. "
+//   },
+//   {
+//     title: "Electrical",
+//     desc1: "To improve system reliability and power monitoring, a custom Battery Management System (BMS) is being implemented to provide real-time battery percentage monitoring and battery protection by balancing individual cell voltages. The control architecture is being transitioned from a Raspberry Pi Pico–based setup to an STM32 platform, enabling more deterministic and robust real-time control. ",
+//   desc2: "In parallel, research is being conducted on underwater communication between M7 and Mini Matsya to support coordinated operations. To achieve finer propulsion control, an in-house Electronic Speed Controller (ESC) is under development for the vehicle thrusters. The power subsystem is further enhanced with USB-C Power Delivery using a dedicated USB PD IC, while a dual Pico configuration is employed to ensure reliable PWM generation and robust sensor communication. "
+//   },
+//   {
+//     title: "Mini Matsya",
+//     desc1: "The vehicle is designed to operate primarily using cameras and an IMU, making visual feature mapping essential for localization and navigation. A front-facing and a bottom-facing camera are used to support perception and task execution. The vehicle is intended to perform barrel roll, gate, and slalom tasks while operating with five degrees of freedom, intentionally excluding pitch to simplify control. ",
+//     desc2: " Thruster configuration is optimized to reduce weight and size, with a strong emphasis on mechanical simplicity. The design prioritizes ease of manufacturing and limited, well-defined capabilities, and is fabricated using laser cutting, welding, and CNC machining, building upon the proven Matsya series architecture. "
+//   }
 
-];
+// ];
 
 export default function Achievements() {
   return (
@@ -156,26 +156,6 @@ export default function Achievements() {
           ))}
         </div>
       </section> */}
-
-      {/* --- SECTION 3: R&D --- */}
-      <section className="max-w-7xl mx-auto px-6">
-        <h2 className="text-3xl font-bold text-center mb-16 uppercase">Research & Development</h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {researchItems.map((item, idx) => (
-            <div key={idx} className="bg-gray-200 text-gray-900 p-8 rounded-lg hover:-translate-y-2 transition-transform duration-300">
-              <h3 className="text-2xl font-bold mb-4 border-b-2 border-black pb-2">{item.title}</h3>
-              <p className="text-sm leading-relaxed font-medium">
-                {item.desc1}
-              </p>
-              <br/>
-              <p className="text-sm leading-relaxed font-medium">
-                {item.desc2}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
 
     </div>
   );
